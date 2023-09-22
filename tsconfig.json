@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // 目标 ECMAScript 版本
+    "module": "ESNext", // 模块系统
+    "jsx": "react", // 使用 React 的 JSX 语法
+    "strict": true, // 启用严格类型检查
+    "esModuleInterop": true, // 允许在导入模块时使用CommonJS和ES模块之间的互操作性
+    "skipLibCheck": true, // 跳过检查声明文件
+    "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致
+    "moduleResolution": "node", // 模块解析策略
+    "resolveJsonModule": true, // 支持导入 JSON 模块
+    "isolatedModules": true, // 启用单文件模式，有助于提高编译性能
+    "noEmit": true, // 不生成编译后的文件，由Vite处理
+    "strictNullChecks": true, // 对null和undefined进行严格检查
+    "strictFunctionTypes": true, // 对函数类型进行严格检查
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "types": ["vite/client", "node"],
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "ts.d.ts", "src/views/home/index.jsx", "src/components/search-panel/index.jsx"], // 用于配置TypeScript编译器应该包含哪些文件
+  "exclude": ["node_modules"], // 用于配置TypeScript编译器应该排除哪些文件。
+}
