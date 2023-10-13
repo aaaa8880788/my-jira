@@ -82,7 +82,6 @@ middleware.use((req, res, next) => {
       })
     }else {
       const user = dbData.loginUsers.find(item => item.token === token)
-      console.log('user------', user);
       if(user) {
         return res.status(200).json({
           code: 200,

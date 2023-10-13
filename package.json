@@ -12,9 +12,11 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "antd": "^5.9.2",
+    "dayjs": "^1.11.10",
     "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
     "styled-components": "^6.0.8"
   },
   "devDependencies": {

@@ -1,10 +1,13 @@
 import React,{ ReactNode } from "react";
 import { AuthProvider } from "./auth-context";
+import { GlobalProvider } from "./global-context";
 
 export const AppProviders = ({children}:{children: ReactNode}) => {
   return (
-    <AuthProvider>
-      {children}
-    </AuthProvider>
+    <GlobalProvider>
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </GlobalProvider>
   )
 }

@@ -1,23 +1,19 @@
-import { useEffect, useState } from 'react';
-export const isFalsy = (value: unknown) => value === 0 ? false : !value
+import { useEffect, useState, useRef } from 'react';
+export const isVoid = (value: any) => [undefined, null, ''].includes(value)
 
-export const cleanObject = (object:Record<string,any>) => {
+// 清除对象的空值
+export const cleanObject = (object:Record<string,unknown>) => {
   const result = { ...object }
   Object.keys(result).forEach(key => {
     const value = result[key]
-    if(isFalsy(value)) {
+    if(isVoid(value)) {
       delete result[key]
     }
   })
   return result
 }
 
-export const useMount = (callback: () => void) => {
-  useEffect(() => {
-    callback()
-  }, [])
-}
-
+// 防抖hook
 export const useDebounce = <T>(value: T, delay?: number) => {
   const [debounceValue, setDebounceValue] = useState(value)
 
@@ -48,4 +44,23 @@ export const useArray = <T>(initialValue: Array<T>) => {
     clear,
     removeIndex
   }
+}
+
+// 修改页面标题
+export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
+  // 保留旧的title
+  const oldTitle = useRef(document.title).current
+
+  useEffect(() => {
+    document.title = title
+  }, [title])  
+
+  useEffect(() => {
+    return () => {
+      // 如果传false,则还原旧title,否则一直更新title
+      if(!keepOnUnmount) {
+        document.title = oldTitle
+      }
+    }
+  }, [keepOnUnmount, oldTitle])
 }

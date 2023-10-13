@@ -1,7 +1,6 @@
 // 注册/登录/退出登录
 const localStorageKey = "auth_token"
 import { http } from "@/service"
-import { message } from "antd"
 
 interface User {
   username: string,
@@ -26,23 +25,11 @@ export const login = (
       data: params
   }).then(async res => {
     if(res && res.code === 200) {
-      message.success({
-        content: res.data.message
-      })
       return Promise.resolve(handleUserResponse(res.data))
     }else {
       return Promise.reject(res)
     }
   }).catch(err => {
-    if(err.message) {
-      message.error({
-        content: err.message
-      })
-    }else {
-      message.error({
-        content: '登录失败,请稍后重试'
-      })
-    }
     return Promise.reject(err)
   })
 }
@@ -58,23 +45,11 @@ export const register = (
     data: params
   }).then(async res => {
     if(res && res.code === 200) {
-      message.success({
-        content: res.data.message
-      })
       return Promise.resolve(handleUserResponse(res.data))
     }else {
       return Promise.reject(res)
     }
   }).catch(err => {
-    if(err.message) {
-      message.error({
-        content: err.message
-      })
-    }else {
-      message.error({
-        content: '登录失败,请稍后重试'
-      })
-    }
     return Promise.reject(err)
   })
 }

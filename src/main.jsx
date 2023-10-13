@@ -6,7 +6,9 @@ import './assets/css/global.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <AppProviders>
-    <App />
-  </AppProviders>
+  <React.StrictMode>
+    <AppProviders>
+      <App />
+    </AppProviders>
+  </React.StrictMode>
 )
