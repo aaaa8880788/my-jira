@@ -1,25 +1,19 @@
 import React from 'react'
 import { useAuth } from './context/auth-context'
-import { ConfigProvider } from 'antd'
-import Home from './views/home'
-import Login from './views/login'
 import { useGlobal } from './context/global-context'
+import { Outlet,Navigate } from 'react-router-dom'
 
 function App() {
   const { user } = useAuth()
   const {contextHolder} = useGlobal()
   return (
-    <ConfigProvider theme={{
-      token: {
-        // Seed Token，影响范围大
-        colorPrimary: '#00b96b',
-      },
-    }}>
+    <>
       {contextHolder}
       {
-        user ? <Home></Home> : <Login></Login>
+        user ? <Navigate to='/home'/> : <Navigate to='/login'/>
       }
-    </ConfigProvider>
+      <Outlet></Outlet>
+    </>
   )
 }
 
