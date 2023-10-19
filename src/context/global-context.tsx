@@ -17,7 +17,7 @@ export const GlobalProvider = ({children}:{children:ReactNode}) => {
 export const useGlobal = () => {
   const context = useContext(GlobalContext)
   if(!context) {
-    throw new Error("useAuth必须在AuthProvider中使用");
+    throw new Error("useAuth必须在GlobalProvider中使用");
   }
   return context
 }
