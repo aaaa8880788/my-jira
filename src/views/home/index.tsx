@@ -1,26 +1,19 @@
 import React, { memo, useEffect, useState } from 'react'
-import SearchPanel from '@/components/search-panel'
-import SearchList from '@/components/search-list'
+import SearchPanel from '@/views/home/component/searchPanel'
+import SearchList from '@/views/home/component/searchList'
 import { useDebounce, useDocumentTitle } from '@/utils'
 import { useAuth } from '@/context/auth-context'
 import { Dropdown, Typography } from 'antd'
 import type { MenuProps } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons'
-import { useProjects } from '@/utils/project'
-import { useUsers } from '@/utils/user'
-import { Container, Footer, Header, HeaderLeft, HeaderRight, Main } from './style'
-
-type Params = {
-  name: string,
-  personId: string
-}
+import { useProjects } from '@/views/home/utils/project'
+import { useUsers } from '@/views/home/utils/user'
+import { Container, Footer, Header, HeaderLeft, HeaderRight, Main } from './css/style'
+import { useProjectsSearchParams } from './utils'
 
 const Home = memo(() => {
-  const [params, setParams] = useState<Params>({
-    name: '',
-    personId: ''
-  })
-  const debounceParams = useDebounce(params, 100)
+  const [param, setParam] = useProjectsSearchParams()
+  const debounceParams = useDebounce(param, 100)
   const { user,logout } = useAuth()
   // 获取工程数据data
   const { isLoading, error, data:list } = useProjects(debounceParams)
@@ -59,7 +52,7 @@ const Home = memo(() => {
         </HeaderRight>
       </Header>
       <Main>
-        <SearchPanel users={users || []} params={params} setParams={setParams}></SearchPanel>
+        <SearchPanel users={users || []} param={param} setParam={setParam}></SearchPanel>
         { error ? <Typography.Text type="danger">{ error.message }</Typography.Text> : null }
         <SearchList users={users || []} list={list || []} loading={isLoading}></SearchList>
       </Main>

@@ -6,7 +6,7 @@ import { useHttp } from '@/service'
 interface List {
   id: number,
   name: string,
-  personId: string,
+  personId: number,
   organization: string,
   created: number,
 }

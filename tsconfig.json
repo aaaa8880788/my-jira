@@ -19,6 +19,6 @@
     },
     "types": ["vite/client", "node"],
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "ts.d.ts", "src/views/home/index.jsx", "src/components/search-panel/index.jsx"], // 用于配置TypeScript编译器应该包含哪些文件
+  "include": ["src/**/*.ts", "src/**/*.tsx", "ts.d.ts"], // 用于配置TypeScript编译器应该包含哪些文件
   "exclude": ["node_modules"], // 用于配置TypeScript编译器应该排除哪些文件。
 }

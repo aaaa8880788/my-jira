@@ -15,7 +15,7 @@ interface User {
 interface List {
   id: number,
   name: string,
-  personId: string | number,
+  personId: number,
   organization: string,
   created: number,
 }
