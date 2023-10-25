@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useMountedRef } from './index';
+import { useCallback, useState } from 'react';
 interface State<D> {
   status: 'idle' | 'loading' | 'error' | 'success';
   data: D | null;
@@ -17,11 +18,16 @@ export const useAsync = <D>(initialState?: State<D>) => {
     ...initialState
   })
 
-  const setData = (data: D) => setState({
-    data,
-    status: 'success',
-    error: null
-  })
+  const [retry, setRetry] = useState(() => () => {})
+  const mountedRef = useMountedRef()
+
+  const setData = (data: D) => {
+    setState({
+      data,
+      status: 'success',
+      error: null
+    })
+  }
 
   const setError = (error: Error) => setState({
     error,
@@ -30,24 +36,32 @@ export const useAsync = <D>(initialState?: State<D>) => {
   })
 
   // run 用来触发异步请求
-  const run = (promise: Promise<D>) => {
+  const run = useCallback((promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
     return new Promise((resolve, reject) => {
       if(!promise || !promise.then) {
         throw new Error("请传入 Promise 类型数据");
       }
+      setRetry(() => () => {
+        if(runConfig?.retry) {
+          run(runConfig?.retry(), runConfig)
+        }
+      })
       setState({
         ...state,
         status: 'loading'
       })
       promise.then(data => {
-        setData(data)
+        // 组件未卸载的时候才执行
+        if(mountedRef.current) {
+          setData(data)
+        }
         resolve(data) 
       }).catch(error => {
         setError(error)
         reject(error) 
       })
     })
-  }
+  }, [])
 
   return {
     isIdle: state.status === 'idle',
@@ -57,6 +71,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
     run,
     setData,
     setError,
-    ...state
+    retry,
+    ...state,
   }
 }

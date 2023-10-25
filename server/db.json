@@ -1,5 +1,11 @@
 {
   "loginUsers": [
+    {
+      "id": "6b07da2d-0623-4904-8f7f-205815031d58",
+      "username": "jira",
+      "password": "jira",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamlyYSIsImlhdCI6MTY5ODE2MzU4NywiZXhwIjoxNjk4MTY3MTg3fQ.qP4vXITnWeNjdffCcEruQtFeCLAuKyk8uSCobo-eSTk"
+    }
   ],
   "users": [
     {
@@ -25,6 +31,7 @@
       "name": "打螺丝",
       "personId": 1,
       "organization": "法师",
+      "pin": true,
       "created": 1695091295211
     },
     {
@@ -32,21 +39,24 @@
       "name": "送外卖",
       "personId": 2,
       "organization": "打野",
-      "created": 1695091295211
+      "pin": false,
+      "created": 1685091295211
     },
     {
       "id": 3,
       "name": "敲代码",
       "personId": 3,
       "organization": "射手",
-      "created": 1695091295211
+      "pin": false,
+      "created": 1675091295211
     },
     {
       "id": 4,
       "name": "大街要饭",
       "personId": 4,
       "organization": "辅助",
-      "created": 1695091295211
+      "pin": false,
+      "created": 1665091295211
     }
   ]
 }

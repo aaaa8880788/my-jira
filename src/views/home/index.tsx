@@ -13,10 +13,9 @@ import { useProjectsSearchParams } from './utils'
 
 const Home = memo(() => {
   const [param, setParam] = useProjectsSearchParams()
-  const debounceParams = useDebounce(param, 100)
   const { user,logout } = useAuth()
   // 获取工程数据data
-  const { isLoading, error, data:list } = useProjects(debounceParams)
+  const { isLoading, error, data:list, retry } = useProjects(useDebounce(param, 100))
   // 获取用户数据
   const { data:users } = useUsers()
 
@@ -54,7 +53,7 @@ const Home = memo(() => {
       <Main>
         <SearchPanel users={users || []} param={param} setParam={setParam}></SearchPanel>
         { error ? <Typography.Text type="danger">{ error.message }</Typography.Text> : null }
-        <SearchList users={users || []} list={list || []} loading={isLoading}></SearchList>
+        <SearchList users={users || []} list={list || []} loading={isLoading} retry={retry}></SearchList>
       </Main>
       <Footer>footer</Footer>
     </Container>

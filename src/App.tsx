@@ -7,7 +7,7 @@ function App() {
   const { user } = useAuth()
   const {contextHolder} = useGlobal()
   const location = useLocation()
-  console.log(location);
+  // console.log(location);
   return (
     <>
       {contextHolder}

@@ -8,6 +8,7 @@ interface List {
   name: string,
   personId: number,
   organization: string,
+  pin: boolean,
   created: number,
 }
 
@@ -17,10 +18,45 @@ export const useProjects = (params?: Partial<List>) => {
 
   // 获取工程数据
   useEffect(() => {
-    run(client(`/projects`, {
+    const projectPromise = () => client(`/projects`, {
       data: cleanObject(params || {})
-    }))
+    })
+    run(projectPromise(), {
+      retry: projectPromise
+    })
   }, [params])
 
   return result
+}
+
+export const useEditProject = () => {
+  const client = useHttp()
+  const {run, ...asyncResult} = useAsync()
+  const mutate = (param: Partial<List>) => {
+    return run(client(`/projects/${param.id}`, {
+      data: param,
+      method: 'PATCH'
+    }))
+  }
+
+  return {
+    mutate,
+    ...asyncResult
+  }
+}
+
+export const useAddProject = () => {
+  const client = useHttp()
+  const {run, ...asyncResult} = useAsync()
+  const mutate = (param: Partial<List>) => {
+    return run(client(`/projects/${param.id}`, {
+      data: param,
+      method: 'POST'
+    }))
+  }
+
+  return {
+    mutate,
+    ...asyncResult
+  }
 }
