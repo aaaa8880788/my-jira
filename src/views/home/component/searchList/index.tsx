@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
-import { Table, TableProps } from 'antd'
+import { Table, Dropdown } from 'antd'
+import type { TableProps, MenuProps } from 'antd';
 import dayjs from 'dayjs'
 import { Pin } from '@/components/pin'
 import { useEditProject } from '../../utils/project'
@@ -8,6 +9,7 @@ interface SearchListProps extends TableProps<dataSourceType> {
   users: User[],
   list: List[],
   retry?: () => void
+  projectButton?: JSX.Element
 }
 
 interface User {
@@ -34,7 +36,7 @@ interface dataSourceType {
   created: string,
 }
 
-const SearchList = memo(({ users, list, retry, ...props }:SearchListProps) => {
+const SearchList = memo(({ users, list, retry,projectButton, ...props }:SearchListProps) => {
   const tableList = list.map(project => ({
     key: project.id,
     id: project.id,
@@ -47,6 +49,15 @@ const SearchList = memo(({ users, list, retry, ...props }:SearchListProps) => {
   }))
   const {mutate} = useEditProject()
   const pinProject = (id: number) => (pin: boolean) => mutate({id, pin}).then(() => retry?.())
+  const menuItems: MenuProps['items'] = []
+  if(projectButton) {
+    menuItems.push({
+      key: 'edit',
+      label: (
+        <>{projectButton}</>
+      ),
+    })
+  }
   return (
     <Table  
       rowKey={'key'}
@@ -91,6 +102,19 @@ const SearchList = memo(({ users, list, retry, ...props }:SearchListProps) => {
           key: 'created',
           sorter: (a, b) => a.created.localeCompare(b.created),
           align: 'center'
+        },
+        {
+          title: '操作',
+          align: 'center',
+          render(value, row, index) {
+            return (
+              <Dropdown menu={{
+                items: menuItems
+              }}>
+                <span style={{cursor: 'pointer'}}>···</span>
+              </Dropdown>
+            )
+          }
         },
       ]} 
       {...props}/>

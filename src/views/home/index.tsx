@@ -8,8 +8,10 @@ import type { MenuProps } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons'
 import { useProjects } from '@/views/home/utils/project'
 import { useUsers } from '@/views/home/utils/user'
-import { Container, Footer, Header, HeaderLeft, HeaderRight, Main } from './css/style'
+import { Container, Footer, Header, HeaderLeft, HeaderRight, Main, CustomButton } from './css/style'
 import { useProjectsSearchParams } from './utils'
+import PopOver from './component/popOver'
+import ProjectDrawer from './component/projectDrawer'
 
 const Home = memo(() => {
   const [param, setParam] = useProjectsSearchParams()
@@ -24,6 +26,18 @@ const Home = memo(() => {
       logout()
     }
   };
+
+  const [projectDrawerOpen, setProjectDrawerOpen] = useState(false);
+  const projectDrawerOnClose = () => {
+    setProjectDrawerOpen(false)
+  }
+
+  const projectDrawerOnOpen = () => {
+    setProjectDrawerOpen(true)
+  }
+
+  const CreateProjectButton = (<CustomButton type='link' onClick={projectDrawerOnOpen}>创建项目</CustomButton>)
+  const EditProjectButton = (<CustomButton type='link' onClick={projectDrawerOnOpen}>编辑</CustomButton>)
   
 
   return (
@@ -32,7 +46,7 @@ const Home = memo(() => {
         <HeaderLeft>
           <AntDesignOutlined style={{color: '#2676fd'}} />
           <span>Jira Software</span>
-          <span>项目</span>
+          <PopOver projectButton={CreateProjectButton}/>
           <span>用户</span>
         </HeaderLeft>
         <HeaderRight>
@@ -51,11 +65,12 @@ const Home = memo(() => {
         </HeaderRight>
       </Header>
       <Main>
-        <SearchPanel users={users || []} param={param} setParam={setParam}></SearchPanel>
+        <SearchPanel users={users || []} param={param} setParam={setParam} projectButton={CreateProjectButton}></SearchPanel>
         { error ? <Typography.Text type="danger">{ error.message }</Typography.Text> : null }
-        <SearchList users={users || []} list={list || []} loading={isLoading} retry={retry}></SearchList>
-      </Main>
+        <SearchList users={users || []} list={list || []} loading={isLoading} retry={retry} projectButton={EditProjectButton}></SearchList>
+      </Main>  
       <Footer>footer</Footer>
+      <ProjectDrawer onClose={projectDrawerOnClose} open={projectDrawerOpen}></ProjectDrawer>
     </Container>
   )
 })

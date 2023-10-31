@@ -5,6 +5,12 @@
       "username": "jira",
       "password": "jira",
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamlyYSIsImlhdCI6MTY5ODE2MzU4NywiZXhwIjoxNjk4MTY3MTg3fQ.qP4vXITnWeNjdffCcEruQtFeCLAuKyk8uSCobo-eSTk"
+    },
+    {
+      "id": "951921cd-0d8e-4b34-9033-1bd96f0b014f",
+      "username": "jira1",
+      "password": "jira1",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamlyYTEiLCJpYXQiOjE2OTg3MjM0OTgsImV4cCI6MTY5ODcyNzA5OH0.kZQvwohFsCsQqbD46tQwhSQnSPBqqjUtwLDpTaYiKJ4"
     }
   ],
   "users": [
@@ -39,7 +45,7 @@
       "name": "送外卖",
       "personId": 2,
       "organization": "打野",
-      "pin": false,
+      "pin": true,
       "created": 1685091295211
     },
     {
@@ -47,7 +53,7 @@
       "name": "敲代码",
       "personId": 3,
       "organization": "射手",
-      "pin": false,
+      "pin": true,
       "created": 1675091295211
     },
     {
@@ -55,7 +61,7 @@
       "name": "大街要饭",
       "personId": 4,
       "organization": "辅助",
-      "pin": false,
+      "pin": true,
       "created": 1665091295211
     }
   ]

@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import styled from 'styled-components'
 
 export const Container = styled.div`
@@ -39,4 +40,8 @@ export const Main = styled.main`
 
 export const Footer = styled.footer`
   grid-area: footer;
+`
+
+export const CustomButton = styled(Button)`
+  padding: 0;
 `

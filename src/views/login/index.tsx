@@ -1,7 +1,7 @@
 import React, { memo, useState, useRef } from 'react'
 import { Button, Form, FormInstance, Input, Divider, Spin } from 'antd';
 import { useAuth } from '@/context/auth-context';
-import { Header, Btns, Contanter, Footer, FooterSpan, LoginWrapper, Main } from './style';
+import { Header, Btns, Contanter, Footer, FooterSpan, LoginWrapper, Main, BackGround, Logo } from './style';
 import { useAsync } from '@/utils/useAsync';
 import { useGlobal } from '@/context/global-context';
 import { useDocumentTitle } from '@/utils';
@@ -55,9 +55,13 @@ const Login = memo(() => {
   return (
     <Spin spinning={isLoading}>
       <LoginWrapper>
+        <BackGround></BackGround>
         <Contanter>
           <Header>
-            <span>请登录</span>
+            <Logo></Logo>
+            <div>
+              <span>请登录</span>
+            </div>
           </Header>
           <Main>
             <Form 

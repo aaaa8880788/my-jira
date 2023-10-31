@@ -1,12 +1,13 @@
 import React, { memo } from 'react'
 import { Form, Input } from 'antd'
 import { UserSelect } from '../userSelect'
-import { Container } from './css/style'
+import { Container, ContainerLeft, ContainerRight } from './css/style'
 
 interface SearchPanelProps {
-  users: User[],
-  param: Params
-  setParam: (params: Params) => void
+  users: User[];
+  param: Params;
+  setParam: (params: Params) => void;
+  projectButton?: JSX.Element
 }
 
 interface User {
@@ -20,7 +21,7 @@ interface Params {
 }
 
 
-const SearchPanel = memo(({ users, param, setParam }:SearchPanelProps) => {
+const SearchPanel = memo(({ users, param, setParam, projectButton }:SearchPanelProps) => {
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = e.target.value
@@ -42,17 +43,22 @@ const SearchPanel = memo(({ users, param, setParam }:SearchPanelProps) => {
       name="formRef">
       <Form.Item>
         <Container>
-          <Input 
-            placeholder='请输入项目名称' 
-            value={param.name} 
-            allowClear= {true}
-            onChange = { onInputChange }>
-          </Input>
-          <UserSelect 
-            value={param.personId} 
-            onChange={onSelectChange}
-            defaultOptionsName={'负责人'}>
-          </UserSelect>
+          <ContainerLeft>
+            <Input 
+              placeholder='请输入项目名称' 
+              value={param.name} 
+              allowClear= {true}
+              onChange = { onInputChange }>
+            </Input>
+            <UserSelect 
+              value={param.personId} 
+              onChange={onSelectChange}
+              defaultOptionsName={'负责人'}>
+            </UserSelect>
+          </ContainerLeft>
+          <ContainerRight>
+            {projectButton}
+          </ContainerRight>
         </Container>
       </Form.Item>
     </Form>
