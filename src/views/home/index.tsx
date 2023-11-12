@@ -3,7 +3,7 @@ import SearchPanel from '@/views/home/component/searchPanel'
 import SearchList from '@/views/home/component/searchList'
 import { useDebounce, useDocumentTitle } from '@/utils'
 import { useAuth } from '@/context/auth-context'
-import { Dropdown, Typography } from 'antd'
+import { Dropdown, Typography, Button } from 'antd'
 import type { MenuProps } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons'
 import { useProjects } from '@/views/home/utils/project'
@@ -12,6 +12,9 @@ import { Container, Footer, Header, HeaderLeft, HeaderRight, Main, CustomButton 
 import { useProjectsSearchParams } from './utils'
 import PopOver from './component/popOver'
 import ProjectDrawer from './component/projectDrawer'
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { homeAction } from '@/store/home'
 
 const Home = memo(() => {
   const [param, setParam] = useProjectsSearchParams()
@@ -20,24 +23,15 @@ const Home = memo(() => {
   const { isLoading, error, data:list, retry } = useProjects(useDebounce(param, 100))
   // 获取用户数据
   const { data:users } = useUsers()
-
+  const dispatch = useDispatch()
   const menuItemClick: MenuProps['onClick'] = ({ key }) => {
     if(key === '0') {
       logout()
     }
   };
 
-  const [projectDrawerOpen, setProjectDrawerOpen] = useState(false);
-  const projectDrawerOnClose = () => {
-    setProjectDrawerOpen(false)
-  }
-
-  const projectDrawerOnOpen = () => {
-    setProjectDrawerOpen(true)
-  }
-
-  const CreateProjectButton = (<CustomButton type='link' onClick={projectDrawerOnOpen}>创建项目</CustomButton>)
-  const EditProjectButton = (<CustomButton type='link' onClick={projectDrawerOnOpen}>编辑</CustomButton>)
+  const CreateProjectButton = (<CustomButton type='link' onClick={() => {dispatch(homeAction.openProjectDrawer())}}>创建项目</CustomButton>)
+  const EditProjectButton = (<CustomButton type='link' onClick={() => dispatch(homeAction.openProjectDrawer())}>编辑</CustomButton>)
   
 
   return (
@@ -69,8 +63,10 @@ const Home = memo(() => {
         { error ? <Typography.Text type="danger">{ error.message }</Typography.Text> : null }
         <SearchList users={users || []} list={list || []} loading={isLoading} retry={retry} projectButton={EditProjectButton}></SearchList>
       </Main>  
-      <Footer>footer</Footer>
-      <ProjectDrawer onClose={projectDrawerOnClose} open={projectDrawerOpen}></ProjectDrawer>
+      <Footer>
+        <Link to={'/test'}>前往测试页</Link>
+      </Footer>
+      <ProjectDrawer></ProjectDrawer>
     </Container>
   )
 })

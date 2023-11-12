@@ -7,15 +7,16 @@ function App() {
   const { user } = useAuth()
   const {contextHolder} = useGlobal()
   const location = useLocation()
-  // console.log(location);
+  // console.log('user------', user);
+  // console.log('location------', location);
   return (
-    <>
+    <div className='app'>
       {contextHolder}
       {
         user ? <Navigate to={`${['/login',''].includes(location.pathname) ? '/home' : location.pathname}${location.search}`}/> : <Navigate to={`/login${location.search}`}/>
       }
       <Outlet></Outlet>
-    </>
+    </div>
   )
 }
 

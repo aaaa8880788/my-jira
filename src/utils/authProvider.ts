@@ -55,3 +55,17 @@ export const register = (
 }
 
 export const logout = async() => window.localStorage.removeItem(localStorageKey)
+
+export const initUser = async() => {
+  let user = null
+  const token = getToken()
+  if(token) {
+    const result = await http('/getUserByToken', {
+      data: {
+        token: token
+      }
+    })
+    user = result.data
+  }
+  return user
+}

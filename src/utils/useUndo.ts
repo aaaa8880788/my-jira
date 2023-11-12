@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react"
-
 // hook说明
 // 该hook用于对初始值进行一系列操作后可以对操作的历史（过去）或将来进行回退
+import { useCallback, useState } from "react"
+
 export const useUndo = <T>(initialPresent: T) => {
   const [state, setState] = useState<{
     past: T[];

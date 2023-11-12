@@ -1,12 +1,16 @@
 import React, { memo } from 'react'
 import { Drawer } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectProjectDrawerOpen, homeAction } from '@/store/home'
 
-const ProjectDrawer = memo(({onClose, open}: {onClose: () => void; open: boolean}) => {
+const ProjectDrawer = memo(() => {
+  const dispatch = useDispatch()
+  const projectDrawerOpen = useSelector(selectProjectDrawerOpen)
   return (
     <Drawer 
       width='100%'
-      onClose={onClose} 
-      open={open}>
+      onClose={ () => {dispatch(homeAction.closeProjectDrawer())} } 
+      open={projectDrawerOpen}>
         <p>Some contents...</p>
     </Drawer>
   )

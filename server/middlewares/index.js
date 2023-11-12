@@ -77,7 +77,7 @@ middleware.use((req, res, next) => {
     const { token } = req.query
     if(!token) {
       return res.status(200).json({
-        code: 400,
+        code: 401,
         message: '无效token'
       })
     }else {
@@ -92,7 +92,7 @@ middleware.use((req, res, next) => {
         })
       }else {
         return res.status(200).json({
-          code: 400,
+          code: 401,
           message: '无效token'
         })
       }

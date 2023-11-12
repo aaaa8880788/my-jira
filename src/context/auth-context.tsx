@@ -1,8 +1,9 @@
-import React, { useState, createContext, ReactNode, useContext, useEffect } from "react";
-import * as auth from '@/utils/authProvider'
-import { http } from "@/service";
+// 用redux thunk的方法来实现登录信息存储
+import React, { ReactNode, useCallback, useEffect } from "react";
 import { useAsync } from "@/utils/useAsync";
 import FullPageLoading from "@/views/fullPageLoading";
+import { useDispatch, useSelector } from "react-redux";
+import { loginThunk, registerThunk, logoutThunk, selectUser, initUser } from "@/store/login";
 
 interface AuthForm {
   username: string,
@@ -14,47 +15,15 @@ interface User {
   token: string
 }
 
-const initUser = async() => {
-  let user = null
-  const token = auth.getToken()
-  if(token) {
-    const result = await http('/getUserByToken', {
-      data: {
-        token: token
-      }
-    })
-    user = result.data
-  }
-  return user
-}
-
-const AuthContext = createContext<{
-  user: User | null,
-  login: (form: AuthForm) =>Promise<any>,
-  register: (form: AuthForm) => Promise<any>,
-  logout: () => Promise<void>
-} | undefined>(undefined);
-AuthContext.displayName = 'AuthContext'
 
 export const AuthProvider = ({children}:{children:ReactNode}) => {
-  const {run, isLoading, data: user, setData: setUser} = useAsync<User | null>()
-
-  const login = (form: AuthForm) => auth.login(form).then(res => {
-    setUser(res)
-    return Promise.resolve(res)
-  }).catch(err => {
-    return Promise.reject(err)
-  })
-  const register = (form: AuthForm) => auth.register(form).then(res => {
-    setUser(res)
-    return Promise.resolve(res)
-  }).catch(err => {
-    return Promise.reject(err)
-  })
-  const logout = () => auth.logout().then(() => setUser(null))
-
+  const {run, isLoading} = useAsync<User | null>()
+  const dispatch: any = useDispatch()
+  const user = useSelector(selectUser)
   useEffect(() => {
-    run(initUser())
+    if(!user) {
+      run(dispatch(initUser()))
+    }
   }, [])
 
   if(isLoading) {
@@ -62,14 +31,22 @@ export const AuthProvider = ({children}:{children:ReactNode}) => {
   }
 
   return (
-    <AuthContext.Provider value={{user, login, register, logout}} children={children}></AuthContext.Provider>
+    <>
+      {children}
+    </>
   )
 }
 
 export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if(!context) {
-    throw new Error("useAuth必须在AuthProvider中使用");
+  const dispatch:any = useDispatch()
+  const user = useSelector(selectUser)
+  const login = useCallback((form: AuthForm) => dispatch(loginThunk(form)), [dispatch])
+  const register = useCallback((form: AuthForm) => dispatch(registerThunk(form)), [dispatch])
+  const logout = useCallback(() => dispatch(logoutThunk()), [dispatch])
+  return {
+    user,
+    login,
+    register,
+    logout
   }
-  return context
 }

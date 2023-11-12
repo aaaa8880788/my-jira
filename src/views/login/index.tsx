@@ -4,7 +4,6 @@ import { useAuth } from '@/context/auth-context';
 import { Header, Btns, Contanter, Footer, FooterSpan, LoginWrapper, Main, BackGround, Logo } from './style';
 import { useAsync } from '@/utils/useAsync';
 import { useGlobal } from '@/context/global-context';
-import { useDocumentTitle } from '@/utils';
 
 const Login = memo(() => {
   const [isLogin, setIsLogin] = useState(true)
